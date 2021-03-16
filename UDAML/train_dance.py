@@ -224,7 +224,8 @@ def train():
         if step > 0 and step % conf.test.test_interval == 0:
             labels = []
             Tfeatall = [[random.random() for _ in range(2048)]for _ in range(1031)]
-            Tfeatall,labels = test(step, dataset_test, filename, n_share, num_class, G, C1,
+            #Tfeatall,labels = 
+            test(step, dataset_test, filename, n_share, num_class, G, C1,
                  conf.train.thr)
             Tfeatall = np.array(Tfeatall)
             labels = np.array(labels)
