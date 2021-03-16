@@ -1,0 +1,1 @@
+python train_dance.py --config configs/xray-train-config_ODA.yaml --source ./txt/source_source_obda.txt --target ./txt/target_target_obda.txt --gpu $1

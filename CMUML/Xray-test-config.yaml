@@ -1,0 +1,55 @@
+data:
+
+  dataset:
+    name: Xray # choices are ['office', 'officehome', 'caltech-imagenet', 'visda2017']
+    root_path: Xray # /path/to/dataset/root
+    source: 0 # source domain index
+    target: 1 # target domain index
+    n_share: 2 # number of classes to be shared
+    n_source_private: 0 # number of classes in source private domain
+    n_total: 3 # number of classes in total
+
+  dataloader:
+    class_balance: true #
+    data_workers: 3 # how many workers to use for train dataloaders
+    batch_size: 36 # batch_size for source domain and target domain respectively
+
+model:
+  base_model: resnet50 # choices=['resnet50', 'vgg16']
+  pretrained_model: workspace/fubo/resnet50.pth # /path/to/pretrained/model
+
+train:
+  min_step: 5000 # minimum steps to run. run epochs until it exceeds the minStep
+  lr: 0.01 # learning rate for new layers. learning rate for finetune is 1/10 of lr
+  weight_decay: 0.0005
+  momentum: 0.9
+
+test:
+  test_interval: 500 # interval of two continuous test phase
+  test_only: True # test a given model and exit
+  resume_file: log/Mar15_21-00-53/best.pkl # model to test current:Feb09_02-15-43(t+s),Feb09_09-28-57(t),Feb09_11-09-55(s),Feb09_13-29-35(0.2),Feb09_15-44-38
+
+  #Mar10_14-57-54(0.25)
+  #Mar10_19-13-31(0.1)Mar10_21-02-36
+  #Mar11_09-40-28(0.08)
+
+  #Mar12_20-03-01
+  #Mar12_21-58-27
+  #Mar13_09-10-38    Mar13_19-31-03
+  #Mar13_22-27-44(仅仅new)
+  #Mar14_14-28-26(全4.5/0.5)
+  #Mar14_17-53-42(4.5/3/0.5)yyyyyy
+  #Mar14_20-42-02(4.7/3/0.5)
+  #Mar14_22-34-35(4.3/3/0.5)
+  #Mar15_00-35-14(4.3Th/3/0.5)
+  #Mar15_09-53-55
+
+  w_0: 0.5 # hyper-parameter w_0
+  #0.06
+
+misc:
+  gpus: 1 # how many GPUs to be used, 0 indicates CPU only
+
+log:
+  root_dir: log # the log directory (log directory will be {root_dir}/{method}/time/)
+  log_interval: 10 # steps to log scalars
