@@ -6,52 +6,6 @@ import random
 import tensorflow as tf
 import torch.nn as nn
 
-'''
-class TripletLoss(nn.Module):
-    """Triplet loss with hard positive/negative mining.
-    
-    Reference:
-        Hermans et al. In Defense of the Triplet Loss for Person Re-Identification. arXiv:1703.07737.
-    
-    Imported from `<https://github.com/Cysu/open-reid/blob/master/reid/loss/triplet.py>`_.
-    
-    Args:
-        margin (float, optional): margin for triplet. Default is 0.3.
-    """
-    
-    def __init__(self, margin, global_feat, labels):
-        super(TripletLoss, self).__init__()
-        self.margin = margin
-        self.ranking_loss = nn.MarginRankingLoss(margin=margin)
-    def forward(self, inputs, targets):
-        """
-        Args:
-            inputs (torch.Tensor): feature matrix with shape (batch_size, feat_dim).
-            targets (torch.LongTensor): ground truth labels with shape (num_classes).
-        """
-        n = inputs.size(0)
-        
-        # Compute pairwise distance, replace by the official when merged
-        dist = torch.pow(inputs, 2).sum(dim=1, keepdim=True).expand(n, n)
-        dist = dist + dist.t()
-        dist.addmm_(1, -2, inputs, inputs.t())
-        dist = dist.clamp(min=1e-12).sqrt()  # for numerical stability
-        
-        # For each anchor, find the hardest positive and negative
-        mask = targets.expand(n, n).eq(targets.expand(n, n).t())
-        dist_ap, dist_an = [], []
-        for i in range(n):
-            dist_ap.append(dist[i][mask[i]].max().unsqueeze(0))
-            dist_an.append(dist[i][mask[i] == 0].min().unsqueeze(0))
-        dist_ap = torch.cat(dist_ap)
-        dist_an = torch.cat(dist_an)
-        
-        # Compute ranking hinge loss
-        y = torch.ones_like(dist_an)
-        print(dist_ap,dist_an,y,'333333333')
-        return self.ranking_loss(dist_an, dist_ap, y)
-'''
-
 
 
 def test(step, dataset_test, filename, n_share, unk_class, G, C1, threshold):
@@ -87,20 +41,14 @@ def test(step, dataset_test, filename, n_share, unk_class, G, C1, threshold):
             #feat1 = feat.cpu().numpy()
             #Tfeat = []
             Tfeat += list(feat) 
-            #Tfeat1 = np.array(Tfeat) 
-            #print(Tfeat1,'00001230  ')
-            #print(Tfeat,'00001231  ') #######
-            #print(feat,'00001232  ')
-            #print(Tfeat1[1],Tfeat1[1][1],'00001233  ')
-            #print(Tfeat[1],Tfeat[1][1],'00001234  ')
+       
 ########################################################################################
             out_t = C1(feat)
 
             #print(out_t,'9999999   ')
 
             out_t = F.softmax(out_t)
-            #print(out_t,'000000000')
-            #print(out_t[1][0],out_t[1][1],'000000000')
+            
 #####################################################################################
             i = 0
             #out_t1 = out_t.cpu().numpy()
@@ -343,11 +291,7 @@ def test(step, dataset_test, filename, n_share, unk_class, G, C1, threshold):
 
 
 
-    #print(Tfeatal,'hhhhhhhhh')
-    #embeddings = Tfeatall
-    #Tfeatall = np.array(Tfeatall)
-    #labels = np.array(labels)
-    #print(label_tt)
+   
     labelss = label_tt#.cpu().numpy()
     #idd = Tfeatal
     #print(labelss,'eeeeeeeee')
@@ -410,17 +354,7 @@ def test(step, dataset_test, filename, n_share, unk_class, G, C1, threshold):
             if lab[i][1] == 2:
                 lab1[u] = lab[i]
                 u = u+1
-            '''    
-            else:
-                if i < a:
-                    if Tfeat_pp[i][1]>ap:
-                        Tfeat_0tt.pop()
-                        Tfeat_0tt.append(Tfeat_pp[i])
-                else:
-                    if Tfeat_pp[i][1]>bp:
-                        Tfeat_1tt.pop()
-                        Tfeat_1tt.append(Tfeat_pp[i])
-            '''
+            
 
 
                 
@@ -472,7 +406,7 @@ def test(step, dataset_test, filename, n_share, unk_class, G, C1, threshold):
     logger.info(output)
 
 
-    return Tfeatall,labels
+    #return Tfeatall,labels
 
     #y = batch_hard_triplet_loss(labels, embeddings, 0.3, False)
     #y = TripletLoss(0.3,Tfeatall,labels)
